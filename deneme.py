@@ -10,7 +10,9 @@ import sys
 
 # files_db sinifi ornekleniyor
 files_db = FilesDB()
-dosyalar = files_db.search_file(".cmake")
+dosyalar = files_db.search_file("ConfigVersion.cmake") + files_db.search_file("Config.cmake")
+
+
 
 
 # kullanilacak listeler tanimlaniyor
@@ -20,6 +22,7 @@ deb_liste_parcali = []
 bagimliliklar = []
 arama_list = []
 bulunanlar = []
+yazdirilacak = []
 
 # kullanilacak kumeler tanimlaniyor
 
@@ -149,9 +152,16 @@ def dizin_list():
         for j in dosyalar:
             for t in j:
                 for k in t:
-                    if i in k:
-                        print i +"------------------>" + k
+                    if k.endswith(("/" + i + "Config.cmake")):
+                        print i +"------------>"+ j[0] + "--------->" + k
                         bulunanlar.append(i)
+                        if j[0] not in yazdirilacak:
+                            yazdirilacak.append(j[0])
+                    elif k.endswith(("/" + i + "ConfigVersion.cmake")):
+                        print i +"------------>"+ j[0] + "------------>" + k
+                        bulunanlar.append(i)
+                        if j[0] not in yazdirilacak:
+                            yazdirilacak.append(j[0])
 def olmayan_list():
     #bu fonksiyon dizinleri bulunamayan bagimliliklari listeliyor
     print "-----Bulunamayanlar listeleniyor-----"
@@ -160,7 +170,10 @@ def olmayan_list():
     for i in bulunmayanlar:
         print i
         
-        
+def sirala():
+    print "---------pcpec.xml için listeleniyor------ "
+    for i in yazdirilacak:
+        print "<Dependency>%s</Dependency>" % i
 def calistir():
     # diger fonksiyonlari sirasi ile calistirir
     cmake_ulas()
@@ -168,13 +181,13 @@ def calistir():
     bag_list()
     dizin_list()
     olmayan_list()
+    sirala()
 
 
 calistir()
 
                 
            
-
 
 
     
