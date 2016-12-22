@@ -10,7 +10,8 @@ import sys
 
 # files_db sinifi ornekleniyor
 files_db = FilesDB()
-dosyalar = files_db.search_file("Config.cmake") +  files_db.search_file("*-config.cmake")
+dosyalar = files_db.search_file(".cmake")
+
 
 # kullanilacak listeler tanimlaniyor
 
@@ -147,9 +148,10 @@ def dizin_list():
     for i in arama_list:
         for j in dosyalar:
             for t in j:
-                if i in t[0]:
-                    print i +"------------------>" + t[0]
-                    bulunanlar.append(i)
+                for k in t:
+                    if i in k:
+                        print i +"------------------>" + k
+                        bulunanlar.append(i)
 def olmayan_list():
     #bu fonksiyon dizinleri bulunamayan bagimliliklari listeliyor
     print "-----Bulunamayanlar listeleniyor-----"
@@ -169,6 +171,7 @@ def calistir():
 
 
 calistir()
+
                 
            
 
