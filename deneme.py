@@ -24,13 +24,9 @@ parcali.pop(0)
 for i in parcali:
     deb_liste.append(i.split(")")[0].replace("(",""))
 
-
 for i in  deb_liste:
         deb_liste_parcali.append(i.strip("").split(" "))
-print deb_liste_parcali
 
-
-print deb_liste_parcali
     
 for i in deb_liste_parcali:
     for j in i:
@@ -84,17 +80,32 @@ for i in deb_liste_parcali:
         elif j == "":
             i.pop(i.index(j))
     for j in i:
+        if re.search(".*COMPONENTS.*",j):
+            i.pop(i.index(j))
+        elif j == "":
+            i.pop(i.index(j))
+    for j in i:
+        if re.search("#.*",j):
+            i.pop(i.index(j))
+        elif j == "":
+            i.pop(i.index(j))
+    for j in i:
         if j == "":
             i.pop(i.index(j))
-        
     bagimliliklar.append(i)
+
+
+
+
+
 
 print "-----Bağımlılıklar listeleniyor-----"
 for i in bagimliliklar:
     if ilk == True:
-        print i[0]
-        arama_list.append(i[0])
-        ilk = False
+        if i[0] not in arama_list:
+            print i[0]
+            arama_list.append(i[0])
+            ilk = False
     n = 1
     if len(i) == 1:
         ilk = True
