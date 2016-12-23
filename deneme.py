@@ -10,7 +10,9 @@ import sys
 
 # files_db sinifi ornekleniyor
 files_db = FilesDB()
-dosyalar = files_db.search_file("ConfigVersion.cmake") + files_db.search_file("Config.cmake")
+dosyalar = files_db.search_file("Config.cmake")
+
+
 
 
 
@@ -125,7 +127,7 @@ def bag_list():
     
     ilk = True
     
-    print "-----Bağımlılıklar listeleniyor-----"
+    print "-----Bağımlılıklar listeleniyor----- \n"
     
     for i in bagimliliklar:
         if ilk == True:
@@ -147,40 +149,43 @@ def bag_list():
 
 def dizin_list():
     # bu fonksiyon bulunan bagimliliklarin dizinlerini listeliyor
-    print "-----Bağımlılıkların bulunduğu dizinler listeleniyor-----"
+    print "-----Bağımlılıkların bulunduğu dizinler listeleniyor----- \n"
     for i in arama_list:
         for j in dosyalar:
             for t in j:
                 for k in t:
                     if k.endswith(("/" + i + "Config.cmake")):
-                        print i +"------------>"+ j[0] + "--------->" + k
+                        print i+ "-"*(30 - len(i)) +"> " + j[0] + " <" + "-"*(40 - len(j[0])) + "> "  + k
                         bulunanlar.append(i)
                         if j[0] not in yazdirilacak:
                             yazdirilacak.append(j[0])
-                    elif k.endswith(("/" + i + "ConfigVersion.cmake")):
-                        print i +"------------>"+ j[0] + "------------>" + k
+                    elif k.endswith(("/" + i + "-config.cmake")):
+                        print i +"-"*(30 - len(i)) +"> " + j[0] + " <" + "-"*(40 - len(j[0])) + "> "  + k
                         bulunanlar.append(i)
                         if j[0] not in yazdirilacak:
                             yazdirilacak.append(j[0])
 def olmayan_list():
     #bu fonksiyon dizinleri bulunamayan bagimliliklari listeliyor
-    print "-----Bulunamayanlar listeleniyor-----"
+    print "-----Bulunamayanlar listeleniyor----- \n"
     bulunmayanlar = set(arama_list) - set(bulunanlar)
 
     for i in bulunmayanlar:
         print i
         
 def sirala():
-    print "---------pcpec.xml için listeleniyor------ "
+    print "---------pcpec.xml için listeleniyor------ \n"
     for i in yazdirilacak:
         print "<Dependency>%s</Dependency>" % i
 def calistir():
     # diger fonksiyonlari sirasi ile calistirir
-    cmake_ulas()
+    cmake_ulas() 
     duzenle()
     bag_list()
+    print ""
     dizin_list()
+    print ""
     olmayan_list()
+    print ""
     sirala()
 
 
